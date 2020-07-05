@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Date    : 2018
+# @Date    : 2020.07
 # @Author  : SunYunfeng
-# @Disc    : ssh-copy-id
+# @Disc    : 创建多线程，互斥锁，多线程共享全局变量，银行家算法等
 # @Disc    : support python 2.x and 3.x
 
 
@@ -13,7 +13,7 @@ import time
 def test1():
     for i in range(5):
         print("---test1---%d" %i)
-    #若果创建Thread时执行的函数，运行结束那么意味着子线程结束了
+    #如果创建Thread时执行的函数，运行结束那么意味着子线程结束了
 
 def test2():
     for i in range(5):
@@ -95,12 +95,12 @@ def main():
 #实验代码体现，多线程是当g_nums数字变大时，线程1和线程2出现资源竞争问题。
 
 
-#使用互斥锁解决源竞争的问题
 
+#互斥锁
+#使用互斥锁解决源竞争的问题
 g_num = 0
 def test5(num):
     global g_num
-
     # 上锁，如果之前没有被上锁，那么此时上锁成功
     # 如果上锁之前 已经被上锁了，那么此时会堵塞在这里，直到锁解开为止
     mutex.acquire()
@@ -108,22 +108,17 @@ def test5(num):
         g_num += 1
     #解锁
     mutex.release()
-
     print("===in test5 g_num=%d===" % g_num)
-
 
 def test6(num):
     global g_num
-
     mutex.acquire()
     for i in range(num):
         g_num += 1
     mutex.release()
-
     print("== in test6 g_num=%d==" % g_num)
 
-
-# 创建一个互斥锁，默认是没有上锁的
+# 创建一个互斥锁，默认是没有上锁的,需要使用accquire和release上锁解锁。
 mutex = threading.Lock()
 
 def main():
@@ -141,10 +136,10 @@ if __name__ == "__main__":
 
 #============================================
 
-#资源竞争会导致死锁
-#如何避免死锁
-    #程序设计避免（银行家算法）
-    #添加超时时间
+#1. 资源竞争会导致死锁
+#2. 如何避免死锁
+    #- 程序设计避免（银行家算法）
+    #- 添加超时时间
 
 
 
